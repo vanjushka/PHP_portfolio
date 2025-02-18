@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Travel Website",
+    "image": "imgs/1.png",
+    "description": "A responsive travel website with interactive elements.",
+    "link": "https://meinprojekt.com/travel"
+  },
+  {
+    "title": "UI Design for an App",
+    "image": "imgs/2.png",
+    "description": "Figma design for a minimalist fitness app.",
+    "link": "https://meinprojekt.com/app"
+  },
+  {
+    "title": "Animated Landing Page Prototype",
+    "image": "imgs/3.png",
+    "description": "An interactive prototype with smooth scroll animations.",
+    "link": "https://meinprojekt.com/prototype"
+  },
+  {
+    "title": "Portfolio Website",
+    "image": "imgs/4.png",
+    "description": "A minimalist portfolio website to showcase projects.",
+    "link": "https://meinprojekt.com/portfolio"
+  },
+  {
+    "title": "E-Commerce UI",
+    "image": "imgs/5.png",
+    "description": "A modern UI design for a sustainable online shop.",
+    "link": "https://meinprojekt.com/ecommerce"
+  },
+  {
+    "title": "3D Product Visualizer",
+    "image": "imgs/6.png",
+    "description": "An interactive 3D design for product presentation.",
+    "link": "https://meinprojekt.com/3d"
+  }
+]
+
