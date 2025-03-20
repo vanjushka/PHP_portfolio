@@ -1,13 +1,13 @@
 [
   {
     "title": "Travel Website",
-    "image": "imgs/1.png",
+    "image": "1.png",
     "description": "A responsive travel website with interactive elements.",
     "link": "https://meinprojekt.com/travel"
   },
   {
     "title": "UI Design for an App",
-    "image": "imgs/2.png",
+    "image": "2.png",
     "description": "Figma design for a minimalist fitness app.",
     "link": "https://meinprojekt.com/app"
   },
