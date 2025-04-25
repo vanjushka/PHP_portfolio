@@ -1,37 +1,61 @@
 [
   {
     "title": "Travel Website",
+<<<<<<< HEAD
     "image": "imgs/1.png",
+=======
+    "image": "./1.png",
+>>>>>>> aec345b8b21c7b7a4da1eba954a6e7d88dbe0134
     "description": "A responsive travel website with interactive elements.",
     "link": "https://meinprojekt.com/travel"
   },
   {
     "title": "UI Design for an App",
+<<<<<<< HEAD
     "image": "imgs/2.png",
+=======
+    "image": "./2.png",
+>>>>>>> aec345b8b21c7b7a4da1eba954a6e7d88dbe0134
     "description": "Figma design for a minimalist fitness app.",
     "link": "https://meinprojekt.com/app"
   },
   {
     "title": "Animated Landing Page Prototype",
+<<<<<<< HEAD
     "image": "imgs/3.png",
+=======
+    "image": "./3.png",
+>>>>>>> aec345b8b21c7b7a4da1eba954a6e7d88dbe0134
     "description": "An interactive prototype with smooth scroll animations.",
     "link": "https://meinprojekt.com/prototype"
   },
   {
     "title": "Portfolio Website",
+<<<<<<< HEAD
     "image": "imgs/4.png",
+=======
+    "image": "./4.png",
+>>>>>>> aec345b8b21c7b7a4da1eba954a6e7d88dbe0134
     "description": "A minimalist portfolio website to showcase projects.",
     "link": "https://meinprojekt.com/portfolio"
   },
   {
     "title": "E-Commerce UI",
+<<<<<<< HEAD
     "image": "imgs/5.png",
+=======
+    "image": "./5.png",
+>>>>>>> aec345b8b21c7b7a4da1eba954a6e7d88dbe0134
     "description": "A modern UI design for a sustainable online shop.",
     "link": "https://meinprojekt.com/ecommerce"
   },
   {
     "title": "3D Product Visualizer",
+<<<<<<< HEAD
     "image": "imgs/6.png",
+=======
+    "image": "./6.png",
+>>>>>>> aec345b8b21c7b7a4da1eba954a6e7d88dbe0134
     "description": "An interactive 3D design for product presentation.",
     "link": "https://meinprojekt.com/3d"
   }
