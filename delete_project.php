@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/app/Core/Database.php';
 require_once __DIR__ . '/app/Models/Project.php';
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Privacy Policy — Vanja Dunkel';
 
+require_once __DIR__ . '/app/bootstrap.php';
 require __DIR__ . '/app/Views/partials/header.php';
 ?>
 

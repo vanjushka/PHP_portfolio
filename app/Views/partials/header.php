@@ -1,9 +1,6 @@
 <?php
-// app/Views/partials/header.php
 declare(strict_types=1);
 
-// bootstrap.php sets up & starts the session
-require_once __DIR__ . '/../../bootstrap.php';
 ?>
 <!DOCTYPE html>
 <html lang="de">

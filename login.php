@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/app/bootstrap.php';
-
 require_once __DIR__ . '/app/Core/Database.php';
 require_once __DIR__ . '/app/Models/User.php';
 
