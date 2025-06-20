@@ -1,16 +1,12 @@
 <?php
 declare(strict_types=1);
 
-// 1) Bootstrap (starts session, sets SameSite cookie, etc)
 require_once __DIR__ . '/app/bootstrap.php';
 
-// 2) Send 404 status header
 http_response_code(404);
 
-// 3) Set a page title
 $pageTitle = '404 — Page Not Found';
 
-// 4) Render header partial (opens <main>)
 require_once __DIR__ . '/app/Views/partials/header.php';
 ?>
 
@@ -26,5 +22,4 @@ require_once __DIR__ . '/app/Views/partials/header.php';
     </main>
 
 <?php
-// 5) Render footer partial (closes </main>, </body>, </html>)
 require_once __DIR__ . '/app/Views/partials/footer.php';

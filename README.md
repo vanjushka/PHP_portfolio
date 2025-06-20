@@ -1,150 +1,103 @@
-# Vanja Dunkel Portfolio CMS
+# PHP CMS Portfolio Project
 
-A PHP 8+ and MySQL–based content management system for a personal portfolio website.  
-Features include user registration/login, CRUD operations for projects, image uploads, a drag-and-drop “About” section
-editor, responsive Tailwind CSS layouts, and a custom 404 page.
+## Project Overview
 
----
+This project is a PHP 8+ & MySQL based Content Management System (CMS) application. Registered users can create, read,
+update, and delete (CRUD) content items such as projects and an About section. The frontend uses Tailwind CSS for a
+fully responsive design, and light JavaScript enhances the user experience.
 
-## Prerequisites
+## Features
 
-- **PHP** 8.0 or higher, with the PDO (MySQL) extension enabled
-- **MySQL** or MariaDB server
-- **Git** (to clone the repo)
-- No additional PHP frameworks or Composer dependencies
+- User registration & login using `password_hash()` and `password_verify()`
+- CRUD operations for content types (e.g., Projects, About section) via PDO (prepared statements)
+- Image file uploads to `/uploads` (publicly accessible)
+- CSRF protection via `SameSite=Strict` session cookie
+- XSS protection using `htmlspecialchars()` on all outputs
+- 404 error page for invalid URLs
+- PSR-4 autoloading for `App\` namespace classes
+- Full type declarations for method parameters, return types, and properties
+- Responsive design with Tailwind CSS
 
----
+## Requirements
+
+- PHP 8.0 or higher
+- MySQL
+- A web server (Apache, Nginx) or PHP built-in server
 
 ## Installation
 
-1. **Clone the repository**
+1. **Clone or extract the project**
    ```bash
-   git clone https://github.com/your-username/vanja_dunkel_portfolio_PHP.git
-   cd vanja_dunkel_portfolio_PHP
+   git clone <repository-url> my-php-cms
+   cd my-php-cms
    ```
 
-2. **Create your database and import the schema**
-   ```sql
-   mysql -u root -p
-   CREATE DATABASE wdd324_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   EXIT
-   mysql -u root -p wdd324_demo < wdd324_demo.sql
-   ```
-
-3. **Configure database credentials**  
-   Copy the example config into `config/` and adjust to your own credentials:
-   ```bash
-   cp config/config.example.php config/config.php
-   ```
-   Then edit `config/config.php` to something like:
+2. **Create configuration file**  
+   Copy `config/config.example.php` to `config/config.php` and adjust database credentials:
    ```php
+   <?php
    return [
-     'db_host' => '127.0.0.1',
-     'db_name' => 'wdd324_demo',
-     'db_user' => 'root',
-     'db_pass' => 'your_db_password',
+       'db_host' => 'localhost',
+       'db_name' => 'mydb',
+       'db_user' => 'root',
+       'db_pass' => 'secret',
    ];
    ```
 
-4. **Prepare the uploads directory**
+3. **Import the database**
    ```bash
-   mkdir -p uploads
-   chmod 775 uploads
+   mysql -u root -p mydb < wdd324_demo.sql
    ```
 
-5. **Start the PHP built-in server**
-   ```bash
-   php -S localhost:8000 router.php
-   ```
+4. **Set up the web server**
+    - Point the document root to the project folder (e.g., `localhost:8080`).
+    - Ensure `bootstrap.php` is included at the top of every entry script.
 
----
+5. **Dependencies**  
+   No external PHP dependencies. Tailwind CSS is prebuilt.
 
 ## Usage
 
 1. **Register a new user**  
-   Visit: `http://localhost:8000/register.php`
+   Visit `/register.php`, fill in a username, email, and password, and submit the form to create an account.
 
-2. **Login**  
-   Visit: `http://localhost:8000/login.php`
+2. **Log in**  
+   Go to `/login.php`, enter your credentials, and submit to access the dashboard.
 
-3. **Dashboard (protected)**  
-   After login, go to: `http://localhost:8000/dashboard.php`
-    - Add, edit, or delete projects
-    - Drag-and-drop image upload
+3. **Manage content**
+    - Create, edit, or delete projects on the dashboard (`/dashboard.php`).
+    - Update the About section on `/about_admin.php`.
+    - Use the contact form at `/contact.php`.
 
-4. **About Editor**  
-   From the Dashboard nav click **Edit About** or visit:  
-   `http://localhost:8000/about_admin.php`
-    - Add/edit/delete “About” sections
-    - Drag-and-drop to reorder
+## CSRF Protection
 
-5. **Public Pages**
-    - Home: `index.php`
-    - Project details: `project.php?id=<PROJECT_ID>`
-    - About: `about.php`
-    - Contact form: `contact.php`
-    - Legal / Impressum: `legal.php`
+We protect against cross-site request forgery by setting our session cookie with `SameSite=Strict`. In `bootstrap.php`:
 
-6. **404 Handling**  
-   Unknown URLs render `404.php` when you run with `router.php`:
-   ```bash
-   php -S localhost:8000 router.php
-   ```
-
----
+```php
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'domain'   => $_SERVER['HTTP_HOST'],
+    'secure'   => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
+    'httponly' => true,
+    'samesite' => 'Strict',
+]);
+session_name('mys_session');
+session_start();
+```
 
 ## Project Structure
 
 ```
-/
-├─ app/
-│  ├─ Core/
-│  │  ├─ Database.php
-│  ├─ Models/
-│  │  ├─ User.php
-│  │  ├─ Project.php
-│  │  └─ AboutSection.php
-│  └─ Views/
-│     ├─ partials/
-│     │  ├─ header.php
-│     │  └─ footer.php
-│     ├─ dashboard.view.php
-│     └─ about_admin.view.php
-├─ config/
-│  ├─ config.example.php
-│  └─ config.php         
-├─ uploads/              
-├─ router.php            
-├─ 404.php               
-├─ login.php
-├─ register.php
-├─ dashboard.php
-├─ about_admin.php
-├─ index.php
-├─ project.php
-├─ contact.php
-├─ legal.php
-├─ wdd324_demo.sql
-└─ README.md
+/app
+  /Core        # Bootstrap, Router, utilities
+  /Controllers # Controller classes
+  /Models      # Database models
+/config        # Configuration files
+/public        # Public assets (CSS, JS, uploads)
+/uploads       # Uploaded files
+/index.php     # Front controller
+bootstrap.php  # Initialization (session, autoloader)
+/wdd324_demo.sql # Database dump
+README.md      # Project documentation
 ```
-
----
-
-## Troubleshooting
-
-- **Blank pages or parse errors**  
-  Make sure `declare(strict_types=1)` and `session_start()` (via `app/bootstrap.php`) appear before any HTML output.
-
-- **Database connection failures**  
-  Double-check your credentials in `config/config.php` and that MySQL is running.
-
-- **File upload errors**  
-  Ensure `uploads/` exists and is writable by your webserver user.
-
-- **404 page not appearing**  
-  Be sure to start your server with:
-  ```bash
-  php -S localhost:8000 router.php
-  ```
-
----

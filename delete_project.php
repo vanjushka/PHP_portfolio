@@ -2,20 +2,17 @@
 session_name('mys_session');
 session_start();
 
-// Only allow logged-in POST requests
 if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: dashboard.php');
     exit;
 }
 
-// Load core & model
 require_once __DIR__ . '/app/Core/Database.php';
 require_once __DIR__ . '/app/Models/Project.php';
 
 use App\Core\Database;
 use App\Models\Project;
 
-// Initialize and delete
 $db = Database::getInstance();
 $projectModel = new Project();
 $id = (int)($_POST['id'] ?? 0);

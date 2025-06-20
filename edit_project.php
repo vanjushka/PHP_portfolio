@@ -34,7 +34,7 @@ if (!$project) {
 $errormessage = '';
 $successmessage = '';
 
-// Handle form submission
+//Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1) Delete existing image?
     if (!empty($_POST['delete_image'])) {

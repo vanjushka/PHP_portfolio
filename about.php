@@ -1,20 +1,17 @@
 <?php
 declare(strict_types=1);
 
-// 1) Page Title
 $pageTitle = 'About — Vanja Dunkel';
 
-// 2) Bootstrap & DB model
+
 require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/app/Core/Database.php';
 require_once __DIR__ . '/app/Models/AboutSection.php';
 
 use App\Models\AboutSection;
 
-// 3) Fetch dynamic sections
 $sections = (new AboutSection())->getAll();
 
-// 4) Render header (opens <main>)
 require __DIR__ . '/app/Views/partials/header.php';
 ?>
 
@@ -68,6 +65,5 @@ require __DIR__ . '/app/Views/partials/header.php';
 </section>
 
 <?php
-// 5) Render footer (closes </main>, </body>, </html>)
 require __DIR__ . '/app/Views/partials/footer.php';
 ?>
