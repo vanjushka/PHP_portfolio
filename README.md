@@ -11,7 +11,7 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
 - **PHP** 8.0 or higher, with the PDO (MySQL) extension enabled
 - **MySQL** or MariaDB server
 - **Git** (to clone the repo)
-- No additional PHP frameworks or composer dependencies
+- No additional PHP frameworks or Composer dependencies
 
 ---
 
@@ -24,7 +24,7 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
    ```
 
 2. **Create your database and import the schema**
-   ```bash
+   ```sql
    mysql -u root -p
    CREATE DATABASE wdd324_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    EXIT
@@ -32,11 +32,11 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
    ```
 
 3. **Configure database credentials**  
-   Copy the example config and edit with your settings:
+   Copy the example config into `config/` and adjust to your own credentials:
    ```bash
-   cp app/core/config.example.php app/core/config.php
+   cp config/config.example.php config/config.php
    ```
-   In `app/core/config.php`, set:
+   Then edit `config/config.php` to something like:
    ```php
    return [
      'db_host' => '127.0.0.1',
@@ -62,22 +62,21 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
 ## Usage
 
 1. **Register a new user**  
-   Visit `http://localhost:8000/register.php` and create an account.
+   Visit: `http://localhost:8000/register.php`
 
 2. **Login**  
-   Go to `http://localhost:8000/login.php`.
+   Visit: `http://localhost:8000/login.php`
 
-3. **Dashboard**  
-   After login, access the protected CMS at  
-   `http://localhost:8000/dashboard.php`  
-   – Add, edit or delete projects  
-   – Upload project images via drag-and-drop form
+3. **Dashboard (protected)**  
+   After login, go to: `http://localhost:8000/dashboard.php`
+    - Add, edit, or delete projects
+    - Drag-and-drop image upload
 
 4. **About Editor**  
-   In the Dashboard header menu, click **Edit About** or go to  
-   `http://localhost:8000/about_admin.php`  
-   – Add/edit/delete “About” sections  
-   – Drag-and-drop to save a new order
+   From the Dashboard nav click **Edit About** or visit:  
+   `http://localhost:8000/about_admin.php`
+    - Add/edit/delete “About” sections
+    - Drag-and-drop to reorder
 
 5. **Public Pages**
     - Home: `index.php`
@@ -87,7 +86,10 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
     - Legal / Impressum: `legal.php`
 
 6. **404 Handling**  
-   Any unknown URL (e.g. `/nope`) will render `404.php` with your custom “Page not found” message.
+   Unknown URLs render `404.php` when you run with `router.php`:
+   ```bash
+   php -S localhost:8000 router.php
+   ```
 
 ---
 
@@ -98,7 +100,6 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
 ├─ app/
 │  ├─ Core/
 │  │  ├─ Database.php
-│  │  └─ config.example.php
 │  ├─ Models/
 │  │  ├─ User.php
 │  │  ├─ Project.php
@@ -109,9 +110,12 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
 │     │  └─ footer.php
 │     ├─ dashboard.view.php
 │     └─ about_admin.view.php
-├─ uploads/       
-├─ router.php     
-├─ 404.php        
+├─ config/
+│  ├─ config.example.php
+│  └─ config.php         
+├─ uploads/              
+├─ router.php            
+├─ 404.php               
 ├─ login.php
 ├─ register.php
 ├─ dashboard.php
@@ -129,13 +133,16 @@ editor, responsive Tailwind CSS layouts, and a custom 404 page.
 ## Troubleshooting
 
 - **Blank pages or parse errors**  
-  Ensure `session_start()` or `declare(strict_types=1)` is at the very top of each PHP script before any output.
+  Make sure `declare(strict_types=1)` and `session_start()` (via `app/bootstrap.php`) appear before any HTML output.
+
 - **Database connection failures**  
-  Double-check credentials in `app/core/config.php` and that MySQL is running.
+  Double-check your credentials in `config/config.php` and that MySQL is running.
+
 - **File upload errors**  
-  Confirm `uploads/` exists and is writable by your webserver user.
+  Ensure `uploads/` exists and is writable by your webserver user.
+
 - **404 page not appearing**  
-  Make sure you started the server with `router.php`:
+  Be sure to start your server with:
   ```bash
   php -S localhost:8000 router.php
   ```

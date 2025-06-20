@@ -1,15 +1,20 @@
 <?php
-// router.php for `php -S`
+// router.php — use with `php -S localhost:8000 router.php`
 
 if (php_sapi_name() === 'cli-server') {
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $file = __DIR__ . $url;
 
-    // 1) If it’s a real file (CSS, JS, image, or PHP), let PHP built-in server handle it
     if ($url !== '/' && is_file($file)) {
         return false;
     }
 
-    // 2) Otherwise, route everything through your 404 page
+    // If URL is exactly /
+    if ($url === '/' || $url === '/index.php') {
+        require __DIR__ . '/index.php';
+        return true;
+    }
+
+    // Otherwise show custom 404
     require __DIR__ . '/404.php';
 }

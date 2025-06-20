@@ -1,25 +1,30 @@
 <?php
+declare(strict_types=1);
+
 session_name('mys_session');
 session_start();
+
+// Redirect unless valid project id
+$id = (int)($_REQUEST['id'] ?? 0);
+if ($id <= 0) {
+    header('Location: dashboard.php');
+    exit;
+}
+
+require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/app/Core/Database.php';
+require_once __DIR__ . '/app/Models/Project.php';
+require_once __DIR__ . '/app/Logic/UploadHandler.php';
 
 use App\Core\Database;
 use App\Models\Project;
 
-require_once __DIR__ . '/app/bootstrap.php';
-require_once __DIR__ . '/app/core/Database.php';
-require_once __DIR__ . '/app/Models/Project.php';
-require_once __DIR__ . '/UploadHandler.php';
 
 $db = Database::getInstance();
 $projectModel = new Project();
 $uploader = new UploadHandler($db);
 
-$id = (int)($_REQUEST['id'] ?? 0);
-if (!$id) {
-    header('Location: dashboard.php');
-    exit;
-}
-
+// Load the project or exit
 $project = $projectModel->getById($id);
 if (!$project) {
     header('Location: dashboard.php');
@@ -29,53 +34,67 @@ if (!$project) {
 $errormessage = '';
 $successmessage = '';
 
-// Handle both delete-image and standard updates in one POST block
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1) Delete Image
+    // 1) Delete existing image?
     if (!empty($_POST['delete_image'])) {
         if (!empty($project['image'])) {
-            $path = __DIR__ . '/' . $project['image'];
-            if (file_exists($path)) {
-                unlink($path);
+            $fullPath = __DIR__ . '/' . $project['image'];
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
             }
         }
-        // Clear DB image field
         $projectModel->updateImage($id, null);
-        $successmessage = 'Image deleted successfully.';
-        // Refresh project
+        $successmessage = 'Image removed.';
+        // reload fresh data
         $project = $projectModel->getById($id);
-    } // 2) Standard Update (title, desc, company, link, optional new upload)
-    else {
+
+    } else {
         $title = trim($_POST['title'] ?? '');
         $description = trim($_POST['description'] ?? '');
         $company = trim($_POST['company'] ?? '');
         $link = trim($_POST['link'] ?? '');
         $imagePath = $project['image'];
 
-        if (empty($title) || empty($description)) {
-            $errormessage = 'Title and description are required.';
+        if ($title === '' || $description === '') {
+            $errormessage = 'Title & description required.';
         } else {
-            // Handle new upload
-            if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
-                $newPath = $uploader->upload($_FILES['image'], $title, $id);
+            // maybe upload a new image
+            if (
+                isset($_FILES['image']) &&
+                $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE
+            ) {
+                $newPath = $uploader->upload(
+                    $_FILES['image'],
+                    $title,
+                    $id
+                );
                 if (!empty($uploader->errors)) {
                     $errormessage = implode(', ', $uploader->errors);
                 } else {
                     // delete old file
-                    if (!empty($imagePath) && file_exists(__DIR__ . '/' . $imagePath)) {
+                    if ($imagePath && file_exists(__DIR__ . '/' . $imagePath)) {
                         unlink(__DIR__ . '/' . $imagePath);
                     }
                     $imagePath = $newPath;
                 }
             }
 
-            if (empty($errormessage)) {
-                $updated = $projectModel->update($id, $title, $description, $company, $imagePath, $link);
-                if ($updated) {
-                    $successmessage = 'Project updated successfully!';
+            // update record
+            if ($errormessage === '') {
+                $ok = $projectModel->update(
+                    $id,
+                    $title,
+                    $description,
+                    $company ?: null,
+                    $imagePath ?: null,
+                    $link ?: null
+                );
+                if ($ok) {
+                    $successmessage = 'Project updated.';
                     $project = $projectModel->getById($id);
                 } else {
-                    $errormessage = 'Failed to update project.';
+                    $errormessage = 'Update failed.';
                 }
             }
         }

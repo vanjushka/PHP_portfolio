@@ -4,27 +4,25 @@ declare(strict_types=1);
 // 1) Page Title
 $pageTitle = 'About — Vanja Dunkel';
 
-// 2) DB & Model
+// 2) Bootstrap & DB model
+require_once __DIR__ . '/app/bootstrap.php';
 require_once __DIR__ . '/app/Core/Database.php';
 require_once __DIR__ . '/app/Models/AboutSection.php';
 
 use App\Models\AboutSection;
 
-// 3) Fetch sections
+// 3) Fetch dynamic sections
 $sections = (new AboutSection())->getAll();
 
 // 4) Render header (opens <main>)
 require __DIR__ . '/app/Views/partials/header.php';
 ?>
 
-
 <!-- Hero Banner -->
 <section class="bg-primary py-16">
     <div class="max-w-4xl mx-auto px-4 text-center space-y-4">
         <h1 class="text-4xl font-bold text-white">Vanja Dunkel</h1>
         <p class="text-lg text-grayish">Graphic Designer.</p>
-
-        <!-- Emoji row now below the subtitle -->
         <div class="flex justify-center space-x-6 text-4xl">
             <span role="img" aria-label="Paint palette">🎨</span>
             <span role="img" aria-label="Laptop">💻</span>

@@ -7,50 +7,38 @@ use PDO;
 
 class User
 {
-    // Store PDO connection
     private PDO $db;
 
-    // Constructor
     public function __construct()
     {
         $this->db = Database::getInstance();
     }
 
-    // Register new user with hashed pw
-
+    // Create a new user
     public function register(string $username, string $email, string $password): bool
     {
-        // Securely hash password
         $hash = password_hash($password, PASSWORD_DEFAULT);
-
-        //SQL insert Statement
-        $stmt = $this->db->prepare("INSERT INTO users_login (username, email, password) VALUES (:username, :email, :password)");
-
-        // Execute
+        $stmt = $this->db->prepare(
+            'INSERT INTO users_login (username, email, password) VALUES (:username, :email, :password)'
+        );
         return $stmt->execute([
-            'username' => $username,
-            'email' => $email,
-            'password' => $hash
+            ':username' => $username,
+            ':email' => $email,
+            ':password' => $hash,
         ]);
     }
 
-    // FInd user by email
+    // Fetch user by email
     public function findByEmail(string $email): ?array
     {
-        // Prepare and execute
-        $stmt = $this->db->prepare("SELECT * FROM users_login WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-
-        // Fetch user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        // return null if not found
-        return $user ?: null;
+        $stmt = $this->db->prepare('SELECT * FROM users_login WHERE email = :email');
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    // Check if passwords match
+    // Verify password against a stored hash
     public function verifyPassword(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
     }
 }
-

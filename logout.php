@@ -1,11 +1,14 @@
 <?php
-session_name('mys_session');
-session_start();
+// logout.php
+declare(strict_types=1);
 
-// Clear session and destroy
+// Use your bootstrap to handle the session name & start
+require_once __DIR__ . '/app/bootstrap.php';
+
+// Clear & destroy
 $_SESSION = [];
 session_destroy();
 
-// Redirect to login page
-header('Location: login.php');
+// Redirect back to login with a flag
+header('Location: login.php?logged_out=1');
 exit;

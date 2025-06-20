@@ -1,5 +1,5 @@
 <?php
-
+// app/Core/Database.php
 namespace App\Core;
 
 use PDO;
@@ -22,11 +22,10 @@ class Database
                 );
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die("Connection to database failed: " . $e->getMessage());
+                die('Connection to database failed: ' . $e->getMessage());
             }
         }
 
         return self::$instance;
     }
 }
-

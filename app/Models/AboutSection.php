@@ -1,5 +1,5 @@
 <?php
-
+// app/Models/AboutSection.php
 namespace App\Models;
 
 use App\Core\Database;
@@ -14,6 +14,7 @@ class AboutSection
         $this->db = Database::getInstance();
     }
 
+    // Get all sections in sort order
     public function getAll(): array
     {
         $stmt = $this->db->query(
@@ -24,16 +25,17 @@ class AboutSection
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Fetch one section by ID
     public function getById(int $id): ?array
     {
         $stmt = $this->db->prepare(
             "SELECT * FROM about_sections WHERE id = :id"
         );
         $stmt->execute([':id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
+    // Add a new section
     public function add(string $title, string $content, ?string $image, int $sortOrder = 0): bool
     {
         $stmt = $this->db->prepare(
@@ -48,6 +50,7 @@ class AboutSection
         ]);
     }
 
+    // Update an existing section
     public function update(int $id, string $title, string $content, ?string $image, int $sortOrder): bool
     {
         $stmt = $this->db->prepare(
@@ -67,6 +70,7 @@ class AboutSection
         ]);
     }
 
+    // Delete a section
     public function delete(int $id): bool
     {
         $stmt = $this->db->prepare(
@@ -75,12 +79,13 @@ class AboutSection
         return $stmt->execute([':id' => $id]);
     }
 
+    // Change sort order of a section
     public function updateSortOrder(int $id, int $sort): bool
     {
         $stmt = $this->db->prepare(
             "UPDATE about_sections
                 SET sort_order = :sort
-              WHERE id = :id"
+              WHERE id         = :id"
         );
         return $stmt->execute([
             ':sort' => $sort,

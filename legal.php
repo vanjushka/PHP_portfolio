@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
+
 $pageTitle = 'Privacy Policy — Vanja Dunkel';
+
 require __DIR__ . '/app/Views/partials/header.php';
 ?>
 
@@ -13,10 +15,8 @@ require __DIR__ . '/app/Views/partials/header.php';
                 <h2 class="text-2xl font-semibold text-white mb-2">1. Introduction</h2>
                 <p class="text-grayish">
                     We take data protection seriously. This Privacy Policy explains how we collect, use, and protect
-                    your
-                    personal data in accordance with the Swiss Federal Act on Data Protection (revDSG) and, where
-                    applicable,
-                    the EU General Data Protection Regulation (GDPR).
+                    your personal data in accordance with the Swiss Federal Act on Data Protection (revDSG) and, where
+                    applicable, the EU General Data Protection Regulation (GDPR).
                 </p>
             </div>
 

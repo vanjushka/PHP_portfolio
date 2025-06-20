@@ -1,5 +1,5 @@
 <?php
-
+// app/Models/Project.php
 namespace App\Models;
 
 use App\Core\Database;
@@ -14,9 +14,7 @@ class Project
         $this->db = Database::getInstance();
     }
 
-    /**
-     * Create a new project.
-     */
+    // Create a new project
     public function add(
         string  $title,
         string  $description,
@@ -25,10 +23,10 @@ class Project
         ?string $link = null
     ): bool
     {
-        $stmt = $this->db->prepare("
-            INSERT INTO projects (title, description, company, image, link)
-            VALUES (:title, :description, :company, :image, :link)
-        ");
+        $stmt = $this->db->prepare(
+            'INSERT INTO projects (title, description, company, image, link)
+             VALUES (:title, :description, :company, :image, :link)'
+        );
         return $stmt->execute([
             ':title' => $title,
             ':description' => $description,
@@ -38,37 +36,27 @@ class Project
         ]);
     }
 
-    /**
-     * Read all projects.
-     */
+    // Fetch all projects
     public function getAll(): array
     {
-        $stmt = $this->db->query("
-            SELECT * 
-              FROM projects 
-          ORDER BY created_at DESC
-        ");
+        $stmt = $this->db->query(
+            'SELECT * FROM projects
+             ORDER BY created_at DESC'
+        );
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Read one project by its ID.
-     */
+    // Fetch a single project by ID
     public function getById(int $id): ?array
     {
-        $stmt = $this->db->prepare("
-            SELECT *
-              FROM projects
-             WHERE id = :id
-        ");
+        $stmt = $this->db->prepare(
+            'SELECT * FROM projects WHERE id = :id'
+        );
         $stmt->execute([':id' => $id]);
-        $project = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $project ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    /**
-     * Update an existing project.
-     */
+    // Update project details
     public function update(
         int     $id,
         string  $title,
@@ -78,15 +66,15 @@ class Project
         ?string $link = null
     ): bool
     {
-        $stmt = $this->db->prepare("
-            UPDATE projects
-               SET title       = :title,
-                   description = :description,
-                   company     = :company,
-                   image       = :image,
-                   link        = :link
-             WHERE id = :id
-        ");
+        $stmt = $this->db->prepare(
+            'UPDATE projects
+                SET title       = :title,
+                    description = :description,
+                    company     = :company,
+                    image       = :image,
+                    link        = :link
+              WHERE id = :id'
+        );
         return $stmt->execute([
             ':title' => $title,
             ':description' => $description,
@@ -97,53 +85,42 @@ class Project
         ]);
     }
 
-    /**
-     * Fetch all images for a given project.
-     */
+    // Get all images
     public function getImages(int $projectId): array
     {
-        $stmt = $this->db->prepare("
-            SELECT *
-              FROM images
+        $stmt = $this->db->prepare(
+            'SELECT * FROM images
              WHERE project_id = :project_id
-          ORDER BY id DESC
-        ");
+             ORDER BY id DESC'
+        );
         $stmt->execute([':project_id' => $projectId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Update just the image field on a project.
-     */
+    // Update only img field
     public function updateImage(int $projectId, ?string $imagePath): bool
     {
-        $stmt = $this->db->prepare("
-            UPDATE projects
-               SET image = :image
-             WHERE id    = :id
-        ");
+        $stmt = $this->db->prepare(
+            'UPDATE projects
+                SET image = :image
+              WHERE id    = :id'
+        );
         return $stmt->execute([
             ':image' => $imagePath,
             ':id' => $projectId,
         ]);
     }
 
-    /**
-     * Delete a project and its related images.
-     */
+    // Delete a project
     public function delete(int $id): bool
     {
-        // First delete any images tied to this project
         $this->db
-            ->prepare("DELETE FROM images WHERE project_id = :id")
+            ->prepare('DELETE FROM images WHERE project_id = :id')
             ->execute([':id' => $id]);
 
-        // Then delete the project itself
-        $stmt = $this->db->prepare("
-            DELETE
-              FROM projects
-             WHERE id = :id
-        ");
+        $stmt = $this->db->prepare(
+            'DELETE FROM projects WHERE id = :id'
+        );
         return $stmt->execute([':id' => $id]);
     }
 }

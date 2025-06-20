@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script src="https://cdn.tailwindcss.com"></script>
     <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen">
 
-<form action="" method="post" class="bg-black border border-white rounded-lg p-8 w-full max-w-md space-y-6">
+<form action="" method="post"
+      class="bg-black border-2 border-white rounded-lg p-8 w-full max-w-md space-y-6">
 
-    <!-- Error Message -->
+    <!-- Show validation errors -->
     <?php if (!empty($errormessage)): ?>
         <div class="text-red-500 mb-4">
             <?= htmlspecialchars($errormessage) ?>
         </div>
     <?php endif; ?>
 
-    <!-- Success Message -->
+    <!-- Show success with unescaped link -->
     <?php if (!empty($successmessage)): ?>
         <div class="text-green-500 mb-4">
             <?= $successmessage ?>
@@ -33,6 +34,7 @@
                 name="username"
                 id="username"
                 required
+                value="<?= htmlspecialchars($username ?? '') ?>"
                 class="w-full px-4 py-2 bg-white text-black border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
     </div>
@@ -44,6 +46,7 @@
                 name="email"
                 id="email"
                 required
+                value="<?= htmlspecialchars($email ?? '') ?>"
                 class="w-full px-4 py-2 bg-white text-black border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
     </div>

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'db_host' => 'localhost',
     'db_name' => 'wdd324_demo',

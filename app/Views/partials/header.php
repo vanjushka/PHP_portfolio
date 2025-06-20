@@ -1,9 +1,9 @@
 <?php
 // app/Views/partials/header.php
 declare(strict_types=1);
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
+// bootstrap.php sets up & starts the session
+require_once __DIR__ . '/../../bootstrap.php';
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -22,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         accent: '#f0630c',
                         grayish: '#c2bebe',
                         border: '#cccccc',
-                        bgSoft: '#D1D1D1'
+                        bgSoft: '#D1D1D1',
                     }
                 }
             }
@@ -31,52 +31,29 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body class="bg-black text-white font-sans antialiased">
 
-<!-- Header / Navbar -->
 <header class="fixed inset-x-0 top-0 z-50 bg-black border-b border-medium">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <!-- Logo -->
-        <a href="index.php" class="text-3xl font-extrabold tracking-wider px-4 py-2">VD</a>
+        <a href="index.php" class="text-3xl font-extrabold tracking-wide">VD</a>
 
-        <!-- Desktop Nav: larger text on laptop/fullscreen -->
-        <nav class="hidden lg:flex items-center space-x-6">
-            <a href="index.php"
-               class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                Work
-            </a>
-            <a href="about.php"
-               class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                About
-            </a>
-            <a href="contact.php"
-               class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                Contact
-            </a>
-            <a href="legal.php"
-               class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                Legal
-            </a>
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center space-x-8 text-lg">
+            <a href="index.php" class="px-4 py-2 text-grayish hover:text-white transition">Work</a>
+            <a href="about.php" class="px-4 py-2 text-grayish hover:text-white transition">About</a>
+            <a href="contact.php" class="px-4 py-2 text-grayish hover:text-white transition">Contact</a>
+            <a href="legal.php" class="px-4 py-2 text-grayish hover:text-white transition">Legal</a>
 
             <?php if (!empty($_SESSION['user_id'])): ?>
-                <a href="dashboard.php"
-                   class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                    Dashboard
-                </a>
-                <a href="about_admin.php"
-                   class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                    Edit About
-                </a>
-                <a href="logout.php"
-                   class="px-3 py-2 text-lg lg:text-xl text-grayish hover:text-white">
-                    Logout
-                </a>
+                <a href="dashboard.php" class="px-4 py-2 text-grayish hover:text-white transition">Dashboard</a>
+                <a href="about_admin.php" class="px-4 py-2 text-grayish hover:text-white transition">Edit About</a>
+                <a href="logout.php" class="px-4 py-2 text-grayish hover:text-white transition">Logout</a>
             <?php else: ?>
                 <a href="login.php"
-                   class="ml-4 px-4 py-2 text-lg lg:text-xl font-semibold border border-grayish rounded text-grayish hover:bg-grayish hover:text-black transition">
+                   class="px-4 py-2 font-semibold border border-grayish rounded text-grayish hover:bg-grayish hover:text-black transition">
                     Login
                 </a>
             <?php endif; ?>
         </nav>
-
 
         <!-- Mobile Toggle -->
         <button id="nav-toggle" class="lg:hidden p-2 text-grayish focus:outline-none">
@@ -90,26 +67,20 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <!-- Mobile Menu -->
     <nav id="mobile-menu" class="hidden lg:hidden bg-black border-t border-medium">
-        <div class="px-4 py-6 space-y-6">
-            <a href="index.php"
-               class="block px-6 py-3 text-grayish hover:text-white rounded">Work</a>
-            <a href="about.php"
-               class="block px-6 py-3 text-grayish hover:text-white rounded">About</a>
-            <a href="contact.php"
-               class="block px-6 py-3 text-grayish hover:text-white rounded">Contact</a>
-            <a href="legal.php"
-               class="block px-6 py-3 text-grayish hover:text-white rounded">Legal</a>
+        <div class="px-6 py-4 space-y-4 text-lg">
+            <a href="index.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">Work</a>
+            <a href="about.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">About</a>
+            <a href="contact.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">Contact</a>
+            <a href="legal.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">Legal</a>
 
             <?php if (!empty($_SESSION['user_id'])): ?>
-                <a href="dashboard.php"
-                   class="block px-6 py-3 text-grayish hover:text-white rounded">Dashboard</a>
-                <a href="about_admin.php"
-                   class="block px-6 py-3 text-grayish hover:text-white rounded">Edit About</a>
-                <a href="logout.php"
-                   class="block px-6 py-3 text-grayish hover:text-white rounded">Logout</a>
+                <a href="dashboard.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">Dashboard</a>
+                <a href="about_admin.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">Edit
+                    About</a>
+                <a href="logout.php" class="block px-4 py-3 text-grayish hover:text-white rounded transition">Logout</a>
             <?php else: ?>
                 <a href="login.php"
-                   class="block px-6 py-3 text-grayish border border-grayish rounded hover:bg-grayish hover:text-black transition">
+                   class="block px-4 py-3 text-grayish border border-grayish rounded hover:bg-grayish hover:text-black transition">
                     Login
                 </a>
             <?php endif; ?>
@@ -117,10 +88,11 @@ if (session_status() === PHP_SESSION_NONE) {
     </nav>
 </header>
 
-<!-- Push content below the header -->
-<main class="pt-16">
+<main class="pt-20">
     <script>
-        document.getElementById('nav-toggle').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('nav-toggle');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', () => menu.classList.toggle('hidden'));
         });
     </script>

@@ -93,9 +93,7 @@
                        class="text-blue-400 hover:text-white text-sm">
                         Edit
                     </a>
-                    <form method="post"
-                          onsubmit="return confirm('Delete this section?');"
-                          class="inline">
+                    <form method="post" onsubmit="return confirm('Delete this section?');" class="inline">
                         <input type="hidden" name="id" value="<?= $sec['id'] ?>"/>
                         <input type="hidden" name="delete" value="1"/>
                         <button type="submit" class="text-red-400 hover:text-red-600 text-sm">
@@ -110,18 +108,15 @@
 
 <?php require __DIR__ . '/partials/footer.php'; ?>
 
-<!-- SortableJS & Reorder Logic -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
     const list = document.getElementById('sections-list');
     Sortable.create(list, {animation: 150});
-
     document.getElementById('save-order').addEventListener('click', () => {
         const ids = Array.from(list.children).map(el => el.dataset.id);
         const form = document.createElement('form');
         form.method = 'post';
         form.style.display = 'none';
-        // include action indicator
         form.innerHTML = '<input name="action" value="reorder"/>' +
             ids.map(id => `<input name="order[]" value="${id}">`).join('');
         document.body.appendChild(form);
