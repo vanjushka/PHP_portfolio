@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 session_name('mys_session');
@@ -18,7 +19,7 @@ require_once __DIR__ . '/app/Logic/UploadHandler.php';
 
 use App\Core\Database;
 use App\Models\Project;
-
+use App\Logic\UploadHandler;
 
 $db = Database::getInstance();
 $projectModel = new Project();
@@ -34,7 +35,7 @@ if (!$project) {
 $errormessage = '';
 $successmessage = '';
 
-//Handle form submission
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1) Delete existing image?
     if (!empty($_POST['delete_image'])) {
@@ -48,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $successmessage = 'Image removed.';
         // reload fresh data
         $project = $projectModel->getById($id);
-
     } else {
         $title = trim($_POST['title'] ?? '');
         $description = trim($_POST['description'] ?? '');

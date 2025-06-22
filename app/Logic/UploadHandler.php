@@ -1,5 +1,4 @@
 <?php
-// app/Logic/UploadHandler.php
 
 namespace App\Logic;
 
